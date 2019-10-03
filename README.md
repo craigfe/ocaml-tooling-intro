@@ -74,14 +74,19 @@ to install that version. After pinning a package, you must install it separately
 with `opam install <NAME>`. `opam` requires you to explicitly re-install any
 out-of-date pins with `opam upgrade <NAME>`.
 
-It's possible to source a pin from your local file-system using e.g.:
+It's possible to source a pin from your local file-system by passing a path
+rather than a remote Git repository. By default, `opam` uses Git to track the
+contents of the local repository; however requires committing any changes made
+to the pinned repository before they can be used. When working on several
+libraries concurrently, it is often more efficient to bypass this requirement
+with:
 
 ```
-opam pin add -k path <PATH/TO/SOURCE/CODE>
+opam pin add --kind=path <PATH/TO/SOURCE/CODE>
 ```
 
-This is particularly useful when working on several libraries concurrently,
-where one depends on another.
+The `--kind=path` option forces `opam` to use [rsync][rsync] rather than Git to
+track the pinned files.
 
 ### [Dune][dune]
 
@@ -156,6 +161,7 @@ over an OCaml file on each save. Instructions for doing this can be found
 [opam]: http://opam.ocaml.org
 [opam-repository]: https://github.com/ocaml/opam-repository
 [index]: https://github.com/mirage/index
+[rsync]: https://linux.die.net/man/1/rsync
 [merlin]: https://github.com/ocaml/merlin
 [merlin-setup]: https://github.com/ocaml/merlin#editor-setup
 [odoc]: https://github.com/ocaml/odoc
